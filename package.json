@@ -1,0 +1,26 @@
+{
+  "name": "fuckin-bird",
+  "version": "0.0.0",
+  "description": "A JavaScript 2D game made to improve math and programming skills.",
+  "main": "fuckin-bird.js",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-coffee": "^0.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gfpacheco/fuckin-bird"
+  },
+  "keywords": [
+    "javascript",
+    "game",
+    "2d"
+  ],
+  "author": "Guilherme Pacheco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gfpacheco/fuckin-bird/issues"
+  },
+  "homepage": "https://github.com/gfpacheco/fuckin-bird"
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <style type="text/css">
+            #gameCanvas {
+                display: block;
+                margin: 0 auto;
+                background: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="gameCanvas" width="240" height="400" style="background: #eee; margin: auto;"></canvas>
+        <script type="text/javascript" src="../fuckin-engine/fuckin-engine.js"></script>
+        <script type="text/javascript" src="fuckin-bird.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                new fuckin.Game(document.getElementById('gameCanvas'));
+            }
+        </script>
+    </body>
+</html>
