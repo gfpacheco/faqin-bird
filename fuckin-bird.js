@@ -6,52 +6,56 @@ fuckin.Config = {
   viewport: {
     x: 0,
     y: 0,
-    width: 180,
-    height: 300,
+    width: 6,
+    height: 10,
     type: 'xFixed',
-    xFixed: 70
+    xFixed: 1
   },
   floor: {
-    x: 0,
-    y: 250,
-    width: 180,
-    height: 50,
-    velocity: new fuckin.Vector(1, 0),
+    x: 3,
+    y: 9,
+    width: 6,
+    height: 2,
+    velocity: new fuckin.Vector(2.2, 0),
     fill: 'rgba(20, 200, 20, 255)'
   },
   bird: {
-    x: 70,
-    y: 80,
-    width: 20,
-    height: 20,
-    velocity: new fuckin.Vector(1, 0),
+    x: 1,
+    y: 3,
+    width: 0.6,
+    height: 0.6,
+    velocity: new fuckin.Vector(2.2, 0),
     dynamic: true,
-    gravity: 18,
+    gravity: 10,
     fill: 'rgba(255, 255, 0, 255)'
   },
   pipes: {
     simple: [
-      {
-        x: 5,
-        y: 0,
-        width: 30,
-        height: 80
-      }, {
-        x: 0,
-        y: 80,
-        width: 40,
-        height: 20
-      }, {
-        x: 0,
-        y: 150,
-        width: 40,
-        height: 20
-      }, {
-        x: 5,
-        y: 170,
-        width: 30,
-        height: 80
-      }
+      new fuckin.Rect({
+        x: 0.5,
+        y: 1.2,
+        width: 0.6,
+        height: 2.4,
+        fill: 'rgba(20, 200, 20, 255)'
+      }), new fuckin.Rect({
+        x: 0.5,
+        y: 2.5,
+        width: 1,
+        height: 0.6,
+        fill: 'rgba(20, 200, 20, 255)'
+      }), new fuckin.Rect({
+        x: 0.5,
+        y: 5.5,
+        width: 1,
+        height: 0.6,
+        fill: 'rgba(20, 200, 20, 255)'
+      }), new fuckin.Rect({
+        x: 0.5,
+        y: 6.8,
+        width: 0.6,
+        height: 2.4,
+        fill: 'rgba(20, 200, 20, 255)'
+      })
     ]
   }
 };
@@ -61,7 +65,6 @@ fuckin.Bird = (function(_super) {
 
   function Bird(options) {
     this.flap = __bind(this.flap, this);
-    deepExtend(this, options);
     Bird.__super__.constructor.apply(this, arguments);
     window.addEventListener('click', (function(_this) {
       return function() {
@@ -76,7 +79,7 @@ fuckin.Bird = (function(_super) {
   }
 
   Bird.prototype.flap = function() {
-    this.velocity.y = -7;
+    this.velocity.y = -5;
     return this;
   };
 
@@ -92,20 +95,29 @@ fuckin.Game = (function(_super) {
     this.createPipe = __bind(this.createPipe, this);
     this.createBird = __bind(this.createBird, this);
     this.createFloor = __bind(this.createFloor, this);
+    this.start = __bind(this.start, this);
     Game.__super__.constructor.call(this, {
       canvas: canvas,
-      viewport: new fuckin.Viewport(fuckin.Config.viewport)
+      viewport: new fuckin.Viewport(fuckin.Config.viewport),
+      fps: 48
     });
+    this.pipes = [];
+    this.lastPipeX = 0;
     this.createFloor();
     this.createBird();
-    setInterval((function(_this) {
+    this.addEventListeners();
+    this.start();
+  }
+
+  Game.prototype.start = function() {
+    Game.__super__.start.apply(this, arguments);
+    this.createPipe();
+    return this.pipesInterval = setInterval((function(_this) {
       return function() {
         return _this.createPipe();
       };
     })(this), 2000);
-    this.addEventListeners();
-    this.start();
-  }
+  };
 
   Game.prototype.createFloor = function() {
     return this.solids.push(new fuckin.Rect(fuckin.Config.floor));
@@ -118,14 +130,25 @@ fuckin.Game = (function(_super) {
   };
 
   Game.prototype.createPipe = function() {
-    return 'ra';
+    var pipe, solid, _i, _len, _ref;
+    pipe = [];
+    this.lastPipeX += 4;
+    _ref = fuckin.Config.pipes.simple;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      solid = _ref[_i];
+      solid = clone(solid);
+      solid.x += this.lastPipeX;
+      pipe.push(solid);
+      this.solids.push(solid);
+    }
+    return this.pipes.push(pipe);
   };
 
   Game.prototype.addEventListeners = function() {
     return this.bird.addEventListener('collide', (function(_this) {
       return function() {
         _this.pause();
-        return alert('Morreu!');
+        return clearInterval(_this.pipesInterval);
       };
     })(this));
   };
@@ -133,3 +156,7 @@ fuckin.Game = (function(_super) {
   return Game;
 
 })(fuckin.Engine);
+
+window.onload = function() {
+  return new fuckin.Game(document.getElementById('gameCanvas'));
+};

@@ -1,6 +1,5 @@
 class fuckin.Bird extends fuckin.Rect
   constructor: (options) ->
-    deepExtend this, options
     super
 
     window.addEventListener 'click', =>
@@ -9,5 +8,5 @@ class fuckin.Bird extends fuckin.Rect
       @flap()
 
   flap: =>
-    @velocity.y = -7;
+    @velocity.y = -5;
     return this

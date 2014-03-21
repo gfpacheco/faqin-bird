@@ -3,16 +3,23 @@ class fuckin.Game extends fuckin.Engine
     super
       canvas: canvas
       viewport: new fuckin.Viewport fuckin.Config.viewport
+      fps: 48
+
+    @pipes = [];
+    @lastPipeX = 0
 
     @createFloor()
     @createBird()
 
-    setInterval =>
-        @createPipe()
-      , 2000
-
     @addEventListeners()
     @start()
+
+  start: =>
+    super
+    @createPipe()
+    @pipesInterval = setInterval =>
+        @createPipe()
+      , 2000
 
   createFloor: =>
     @solids.push new fuckin.Rect fuckin.Config.floor
@@ -23,9 +30,21 @@ class fuckin.Game extends fuckin.Engine
     @solids.push @bird
 
   createPipe: =>
-    'ra'
+    pipe = []
+    @lastPipeX += 4
+
+    for solid in fuckin.Config.pipes.simple
+      solid = clone(solid)
+      solid.x += @lastPipeX
+      pipe.push solid
+      @solids.push solid
+
+    @pipes.push pipe
 
   addEventListeners: =>
     @bird.addEventListener 'collide', =>
       @pause()
-      alert 'Morreu!'
+      clearInterval @pipesInterval
+
+window.onload = ->
+  new fuckin.Game document.getElementById 'gameCanvas'
