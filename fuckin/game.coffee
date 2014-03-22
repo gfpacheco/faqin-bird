@@ -1,11 +1,12 @@
-class fuckin.Game extends fuckin.Engine
-  constructor: (canvas, options) ->
-    super
-      canvas: canvas
+class fuckin.Game
+  constructor: ->
+    @engine = new fuckin.Engine
+      canvas: document.getElementById 'gameCanvas'
       viewport: new fuckin.Viewport fuckin.Config.viewport
       fps: 48
+      debug: true
 
-    @pipes = [];
+    @pipes = []
     @lastPipeX = 0
 
     @createFloor()
@@ -15,19 +16,23 @@ class fuckin.Game extends fuckin.Engine
     @start()
 
   start: =>
-    super
     @createPipe()
     @pipesInterval = setInterval =>
         @createPipe()
       , 2000
+    @engine.start()
+
+  stop: =>
+    @engine.pause()
+    clearInterval @pipesInterval
 
   createFloor: =>
-    @solids.push new fuckin.Rect fuckin.Config.floor
+    @engine.solids.push new fuckin.Rect fuckin.Config.floor
 
   createBird: =>
     @bird = new fuckin.Bird fuckin.Config.bird
-    @viewport.anchor = @bird
-    @solids.push @bird
+    @engine.viewport.anchor = @bird
+    @engine.solids.push @bird
 
   createPipe: =>
     pipe = []
@@ -37,14 +42,13 @@ class fuckin.Game extends fuckin.Engine
       solid = clone(solid)
       solid.x += @lastPipeX
       pipe.push solid
-      @solids.push solid
+      @engine.solids.push solid
 
     @pipes.push pipe
 
   addEventListeners: =>
     @bird.addEventListener 'collide', =>
-      @pause()
-      clearInterval @pipesInterval
+      @stop()
 
 window.onload = ->
-  new fuckin.Game document.getElementById 'gameCanvas'
+  new fuckin.Game

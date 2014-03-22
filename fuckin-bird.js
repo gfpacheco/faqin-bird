@@ -87,19 +87,19 @@ fuckin.Bird = (function(_super) {
 
 })(fuckin.Rect);
 
-fuckin.Game = (function(_super) {
-  __extends(Game, _super);
-
-  function Game(canvas, options) {
+fuckin.Game = (function() {
+  function Game() {
     this.addEventListeners = __bind(this.addEventListeners, this);
     this.createPipe = __bind(this.createPipe, this);
     this.createBird = __bind(this.createBird, this);
     this.createFloor = __bind(this.createFloor, this);
+    this.stop = __bind(this.stop, this);
     this.start = __bind(this.start, this);
-    Game.__super__.constructor.call(this, {
-      canvas: canvas,
+    this.engine = new fuckin.Engine({
+      canvas: document.getElementById('gameCanvas'),
       viewport: new fuckin.Viewport(fuckin.Config.viewport),
-      fps: 48
+      fps: 48,
+      debug: true
     });
     this.pipes = [];
     this.lastPipeX = 0;
@@ -110,23 +110,28 @@ fuckin.Game = (function(_super) {
   }
 
   Game.prototype.start = function() {
-    Game.__super__.start.apply(this, arguments);
     this.createPipe();
-    return this.pipesInterval = setInterval((function(_this) {
+    this.pipesInterval = setInterval((function(_this) {
       return function() {
         return _this.createPipe();
       };
     })(this), 2000);
+    return this.engine.start();
+  };
+
+  Game.prototype.stop = function() {
+    this.engine.pause();
+    return clearInterval(this.pipesInterval);
   };
 
   Game.prototype.createFloor = function() {
-    return this.solids.push(new fuckin.Rect(fuckin.Config.floor));
+    return this.engine.solids.push(new fuckin.Rect(fuckin.Config.floor));
   };
 
   Game.prototype.createBird = function() {
     this.bird = new fuckin.Bird(fuckin.Config.bird);
-    this.viewport.anchor = this.bird;
-    return this.solids.push(this.bird);
+    this.engine.viewport.anchor = this.bird;
+    return this.engine.solids.push(this.bird);
   };
 
   Game.prototype.createPipe = function() {
@@ -139,7 +144,7 @@ fuckin.Game = (function(_super) {
       solid = clone(solid);
       solid.x += this.lastPipeX;
       pipe.push(solid);
-      this.solids.push(solid);
+      this.engine.solids.push(solid);
     }
     return this.pipes.push(pipe);
   };
@@ -147,16 +152,15 @@ fuckin.Game = (function(_super) {
   Game.prototype.addEventListeners = function() {
     return this.bird.addEventListener('collide', (function(_this) {
       return function() {
-        _this.pause();
-        return clearInterval(_this.pipesInterval);
+        return _this.stop();
       };
     })(this));
   };
 
   return Game;
 
-})(fuckin.Engine);
+})();
 
 window.onload = function() {
-  return new fuckin.Game(document.getElementById('gameCanvas'));
+  return new fuckin.Game;
 };
