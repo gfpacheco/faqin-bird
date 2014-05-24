@@ -8,11 +8,11 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         watch: {
-            files: 'fuckin/**/*.coffee',
+            files: 'faqin/**/*.coffee',
             tasks: 'default'
         },
 
-        clean: ['fuckin-bird.js'],
+        clean: ['faqin-bird.js'],
 
         coffee: {
             options: {
@@ -23,11 +23,11 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [
-                            'fuckin/config.coffee',
-                            'fuckin/bird.coffee',
-                            'fuckin/game.coffee'
+                            'faqin/config.coffee',
+                            'faqin/bird.coffee',
+                            'faqin/game.coffee'
                         ],
-                        dest: 'fuckin-bird.js'
+                        dest: 'faqin-bird.js'
                     }
                 ]
             }

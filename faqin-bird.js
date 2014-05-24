@@ -2,7 +2,7 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-fuckin.Config = {
+faqin.Config = {
   viewport: {
     x: 0,
     y: 0,
@@ -16,7 +16,7 @@ fuckin.Config = {
     y: 9,
     width: 6,
     height: 2,
-    velocity: new fuckin.Vector(2.2, 0),
+    velocity: new faqin.Vector(2.2, 0),
     fill: 'rgba(20, 200, 20, 255)'
   },
   bird: {
@@ -24,32 +24,32 @@ fuckin.Config = {
     y: 3,
     width: 0.6,
     height: 0.6,
-    velocity: new fuckin.Vector(2.2, 0),
+    velocity: new faqin.Vector(2.2, 0),
     dynamic: true,
     gravity: 10,
     fill: 'rgba(255, 255, 0, 255)'
   },
   pipes: {
     simple: [
-      new fuckin.Rect({
+      new faqin.Rect({
         x: 0.5,
         y: 1.2,
         width: 0.6,
         height: 2.4,
         fill: 'rgba(20, 200, 20, 255)'
-      }), new fuckin.Rect({
+      }), new faqin.Rect({
         x: 0.5,
         y: 2.5,
         width: 1,
         height: 0.6,
         fill: 'rgba(20, 200, 20, 255)'
-      }), new fuckin.Rect({
+      }), new faqin.Rect({
         x: 0.5,
         y: 5.5,
         width: 1,
         height: 0.6,
         fill: 'rgba(20, 200, 20, 255)'
-      }), new fuckin.Rect({
+      }), new faqin.Rect({
         x: 0.5,
         y: 6.8,
         width: 0.6,
@@ -60,7 +60,7 @@ fuckin.Config = {
   }
 };
 
-fuckin.Bird = (function(_super) {
+faqin.Bird = (function(_super) {
   __extends(Bird, _super);
 
   function Bird(options) {
@@ -85,9 +85,9 @@ fuckin.Bird = (function(_super) {
 
   return Bird;
 
-})(fuckin.Rect);
+})(faqin.Rect);
 
-fuckin.Game = (function() {
+faqin.Game = (function() {
   function Game() {
     this.addEventListeners = __bind(this.addEventListeners, this);
     this.createPipe = __bind(this.createPipe, this);
@@ -95,9 +95,9 @@ fuckin.Game = (function() {
     this.createFloor = __bind(this.createFloor, this);
     this.stop = __bind(this.stop, this);
     this.start = __bind(this.start, this);
-    this.engine = new fuckin.Engine({
+    this.engine = new faqin.Engine({
       canvas: document.getElementById('gameCanvas'),
-      viewport: new fuckin.Viewport(fuckin.Config.viewport),
+      viewport: new faqin.Viewport(faqin.Config.viewport),
       fps: 48,
       debug: true
     });
@@ -125,11 +125,11 @@ fuckin.Game = (function() {
   };
 
   Game.prototype.createFloor = function() {
-    return this.engine.solids.push(new fuckin.Rect(fuckin.Config.floor));
+    return this.engine.solids.push(new faqin.Rect(faqin.Config.floor));
   };
 
   Game.prototype.createBird = function() {
-    this.bird = new fuckin.Bird(fuckin.Config.bird);
+    this.bird = new faqin.Bird(faqin.Config.bird);
     this.engine.viewport.anchor = this.bird;
     return this.engine.solids.push(this.bird);
   };
@@ -138,7 +138,7 @@ fuckin.Game = (function() {
     var pipe, solid, _i, _len, _ref;
     pipe = [];
     this.lastPipeX += 4;
-    _ref = fuckin.Config.pipes.simple;
+    _ref = faqin.Config.pipes.simple;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       solid = _ref[_i];
       solid = clone(solid);
@@ -162,5 +162,5 @@ fuckin.Game = (function() {
 })();
 
 window.onload = function() {
-  return new fuckin.Game;
+  return new faqin.Game;
 };

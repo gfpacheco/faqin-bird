@@ -1,4 +1,4 @@
-class fuckin.Bird extends fuckin.Rect
+class faqin.Bird extends faqin.Rect
   constructor: (options) ->
     super
 

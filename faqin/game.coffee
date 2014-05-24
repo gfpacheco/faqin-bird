@@ -1,8 +1,8 @@
-class fuckin.Game
+class faqin.Game
   constructor: ->
-    @engine = new fuckin.Engine
+    @engine = new faqin.Engine
       canvas: document.getElementById 'gameCanvas'
-      viewport: new fuckin.Viewport fuckin.Config.viewport
+      viewport: new faqin.Viewport faqin.Config.viewport
       fps: 48
       debug: true
 
@@ -27,10 +27,10 @@ class fuckin.Game
     clearInterval @pipesInterval
 
   createFloor: =>
-    @engine.solids.push new fuckin.Rect fuckin.Config.floor
+    @engine.solids.push new faqin.Rect faqin.Config.floor
 
   createBird: =>
-    @bird = new fuckin.Bird fuckin.Config.bird
+    @bird = new faqin.Bird faqin.Config.bird
     @engine.viewport.anchor = @bird
     @engine.solids.push @bird
 
@@ -38,7 +38,7 @@ class fuckin.Game
     pipe = []
     @lastPipeX += 4
 
-    for solid in fuckin.Config.pipes.simple
+    for solid in faqin.Config.pipes.simple
       solid = clone(solid)
       solid.x += @lastPipeX
       pipe.push solid
@@ -51,4 +51,4 @@ class fuckin.Game
       @stop()
 
 window.onload = ->
-  new fuckin.Game
+  new faqin.Game
