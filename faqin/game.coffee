@@ -7,7 +7,7 @@ class faqin.Game
       debug: true
 
     @pipes = []
-    @lastPipeX = 0
+    @lastPipeX = 3.3
 
     @createFloor()
     @createBird()
@@ -17,9 +17,9 @@ class faqin.Game
 
   start: =>
     @createPipe()
-    @pipesInterval = setInterval =>
+    setTimeout =>
         @createPipe()
-      , 2000
+      , 1500
     @engine.start()
 
   stop: =>
@@ -35,14 +35,21 @@ class faqin.Game
     @engine.solids.push @bird
 
   createPipe: =>
+    console.log('createPipe');
+    @lastPipeX += 3.75
     pipe = []
-    @lastPipeX += 4
+    hidden = 0
 
     for solid in faqin.Config.pipes.simple
       solid = clone(solid)
       solid.x += @lastPipeX
+      solid.addEventListener 'hide', =>
+        hidden++
+        if hidden == faqin.Config.pipes.simple.length
+          @createPipe()
       pipe.push solid
       @engine.solids.push solid
+
 
     @pipes.push pipe
 

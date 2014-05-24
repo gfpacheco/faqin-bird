@@ -1,7 +1,7 @@
 faqin.Config =
   viewport:
-    x: 0
-    y: 0
+    x: 3
+    y: 5
     width: 6
     height: 10
     type: 'xFixed'
@@ -11,14 +11,14 @@ faqin.Config =
     y: 9
     width: 6
     height: 2
-    velocity: new faqin.Vector 2.2, 0
+    velocity: new faqin.Vector 2.5, 0
     fill: 'rgba(20, 200, 20, 255)'
   bird:
     x: 1
     y: 3
     width: 0.6
     height: 0.6
-    velocity: new faqin.Vector 2.2, 0
+    velocity: new faqin.Vector 2.5, 0
     dynamic: true
     gravity: 10
     fill: 'rgba(255, 255, 0, 255)'
