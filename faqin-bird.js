@@ -17,7 +17,8 @@ faqin.Config = {
     width: 6,
     height: 2,
     velocity: new faqin.Vector(2.5, 0),
-    fill: 'rgba(20, 200, 20, 255)'
+    fill: 'rgba(20, 200, 20, 255)',
+    floor: true
   },
   bird: {
     x: 1,
@@ -36,25 +37,35 @@ faqin.Config = {
         y: 1.2,
         width: 0.6,
         height: 2.4,
-        fill: 'rgba(20, 200, 20, 255)'
+        fill: 'rgba(20, 200, 20, 255)',
+        pipe: true
       }), new faqin.Rect({
         x: 0.5,
         y: 2.5,
         width: 1,
         height: 0.6,
-        fill: 'rgba(20, 200, 20, 255)'
+        fill: 'rgba(20, 200, 20, 255)',
+        pipe: true
       }), new faqin.Rect({
         x: 0.5,
         y: 5.5,
         width: 1,
         height: 0.6,
-        fill: 'rgba(20, 200, 20, 255)'
+        fill: 'rgba(20, 200, 20, 255)',
+        pipe: true
       }), new faqin.Rect({
         x: 0.5,
         y: 6.8,
         width: 0.6,
         height: 2.4,
-        fill: 'rgba(20, 200, 20, 255)'
+        fill: 'rgba(20, 200, 20, 255)',
+        pipe: true
+      }), new faqin.Rect({
+        x: 0.5,
+        y: 4,
+        width: 0.1,
+        height: 2.4,
+        checkpoint: true
       })
     ]
   }
@@ -89,6 +100,7 @@ faqin.Bird = (function(_super) {
 
 faqin.Game = (function() {
   function Game() {
+    this.updateScore = __bind(this.updateScore, this);
     this.addEventListeners = __bind(this.addEventListeners, this);
     this.createPipe = __bind(this.createPipe, this);
     this.createBird = __bind(this.createBird, this);
@@ -99,10 +111,12 @@ faqin.Game = (function() {
       canvas: document.getElementById('gameCanvas'),
       viewport: new faqin.Viewport(faqin.Config.viewport),
       fps: 48,
-      debug: true
+      debug: false
     });
     this.pipes = [];
     this.lastPipeX = 3.3;
+    this.score = 0;
+    this.updateScore();
     this.createFloor();
     this.createBird();
     this.addEventListeners();
@@ -120,8 +134,7 @@ faqin.Game = (function() {
   };
 
   Game.prototype.stop = function() {
-    this.engine.pause();
-    return clearInterval(this.pipesInterval);
+    return this.engine.pause();
   };
 
   Game.prototype.createFloor = function() {
@@ -136,7 +149,6 @@ faqin.Game = (function() {
 
   Game.prototype.createPipe = function() {
     var hidden, pipe, solid, _i, _len, _ref;
-    console.log('createPipe');
     this.lastPipeX += 3.75;
     pipe = [];
     hidden = 0;
@@ -161,10 +173,21 @@ faqin.Game = (function() {
 
   Game.prototype.addEventListeners = function() {
     return this.bird.addEventListener('collide', (function(_this) {
-      return function() {
-        return _this.stop();
+      return function(event) {
+        console.log(event);
+        if (event.solid.pipe || event.solid.floor) {
+          return _this.stop();
+        } else if (event.solid.checkpoint) {
+          event.solid.checkpoint = false;
+          _this.score++;
+          return _this.updateScore();
+        }
       };
     })(this));
+  };
+
+  Game.prototype.updateScore = function() {
+    return document.getElementById('score').innerHTML = this.score;
   };
 
   return Game;

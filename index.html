@@ -1,20 +1,34 @@
 <!doctype html>
 <html>
     <head>
-        <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <style type="text/css">
             #gameContainer {
                 display: block;
+                position: relative;
                 margin: 0 auto;
                 width: 240px;
                 height: 400px;
                 background: #eee;
+            }
+
+            #score {
+                display: block;
+                position: absolute;
+                width: 100%;
+                top: 20px;
+                left: 0;
+                color: #fff;
+                font-size: 32px;
+                text-shadow: 0 0 3px #000;
+                text-align: center;
             }
         </style>
     </head>
     <body>
         <div id="gameContainer">
             <canvas id="gameCanvas" width="240" height="400" style="background: #eee;"></canvas>
+            <p id="score"></p>
         </div>
         <script type="text/javascript" src="../faqin-engine/faqin-engine.js"></script>
         <script type="text/javascript" src="faqin-bird.js"></script>

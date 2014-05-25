@@ -13,6 +13,7 @@ faqin.Config =
     height: 2
     velocity: new faqin.Vector 2.5, 0
     fill: 'rgba(20, 200, 20, 255)'
+    floor: true
   bird:
     x: 1
     y: 3
@@ -30,6 +31,7 @@ faqin.Config =
           width: 0.6
           height: 2.4
           fill: 'rgba(20, 200, 20, 255)'
+          pipe: true
       ,
         new faqin.Rect
           x: 0.5
@@ -37,6 +39,7 @@ faqin.Config =
           width: 1
           height: 0.6
           fill: 'rgba(20, 200, 20, 255)'
+          pipe: true
       ,
         new faqin.Rect
           x: 0.5
@@ -44,6 +47,7 @@ faqin.Config =
           width: 1
           height: 0.6
           fill: 'rgba(20, 200, 20, 255)'
+          pipe: true
       ,
         new faqin.Rect
           x: 0.5
@@ -51,4 +55,12 @@ faqin.Config =
           width: 0.6
           height: 2.4
           fill: 'rgba(20, 200, 20, 255)'
+          pipe: true
+      ,
+        new faqin.Rect
+          x: 0.5
+          y: 4
+          width: 0.1
+          height: 2.4
+          checkpoint: true
     ]

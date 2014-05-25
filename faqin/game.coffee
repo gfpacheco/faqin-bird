@@ -4,10 +4,12 @@ class faqin.Game
       canvas: document.getElementById 'gameCanvas'
       viewport: new faqin.Viewport faqin.Config.viewport
       fps: 48
-      debug: true
+      debug: false
 
     @pipes = []
     @lastPipeX = 3.3
+    @score = 0
+    @updateScore()
 
     @createFloor()
     @createBird()
@@ -24,7 +26,6 @@ class faqin.Game
 
   stop: =>
     @engine.pause()
-    clearInterval @pipesInterval
 
   createFloor: =>
     @engine.solids.push new faqin.Rect faqin.Config.floor
@@ -35,7 +36,6 @@ class faqin.Game
     @engine.solids.push @bird
 
   createPipe: =>
-    console.log('createPipe');
     @lastPipeX += 3.75
     pipe = []
     hidden = 0
@@ -50,12 +50,19 @@ class faqin.Game
       pipe.push solid
       @engine.solids.push solid
 
-
     @pipes.push pipe
 
   addEventListeners: =>
-    @bird.addEventListener 'collide', =>
-      @stop()
+    @bird.addEventListener 'collide', (event) =>
+      if event.solid.pipe || event.solid.floor
+        @stop()
+      else if event.solid.checkpoint
+        event.solid.checkpoint = false
+        @score++
+        @updateScore()
+
+  updateScore: =>
+    document.getElementById('score').innerHTML = @score
 
 window.onload = ->
   new faqin.Game
