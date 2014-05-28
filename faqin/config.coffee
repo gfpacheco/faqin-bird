@@ -58,9 +58,9 @@ faqin.Config =
           pipe: true
       ,
         new faqin.Rect
-          x: 0.5
+          x: 1
           y: 4
-          width: 0.1
+          width: 0
           height: 2.4
           checkpoint: true
     ]

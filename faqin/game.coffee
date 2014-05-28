@@ -9,6 +9,7 @@ class faqin.Game
     @pipes = []
     @lastPipeX = 3.3
     @score = 0
+    @scoreDisplay = document.getElementById 'score'
     @updateScore()
 
     @createFloor()
@@ -62,7 +63,4 @@ class faqin.Game
         @updateScore()
 
   updateScore: =>
-    document.getElementById('score').innerHTML = @score
-
-window.onload = ->
-  new faqin.Game
+    @scoreDisplay.innerHTML = @score

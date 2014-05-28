@@ -25,7 +25,8 @@ module.exports = function(grunt) {
                         src: [
                             'faqin/config.coffee',
                             'faqin/bird.coffee',
-                            'faqin/game.coffee'
+                            'faqin/game.coffee',
+                            'faqin/main.coffee'
                         ],
                         dest: 'faqin-bird.js'
                     }

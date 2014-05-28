@@ -61,9 +61,9 @@ faqin.Config = {
         fill: 'rgba(20, 200, 20, 255)',
         pipe: true
       }), new faqin.Rect({
-        x: 0.5,
+        x: 1,
         y: 4,
-        width: 0.1,
+        width: 0,
         height: 2.4,
         checkpoint: true
       })
@@ -116,6 +116,7 @@ faqin.Game = (function() {
     this.pipes = [];
     this.lastPipeX = 3.3;
     this.score = 0;
+    this.scoreDisplay = document.getElementById('score');
     this.updateScore();
     this.createFloor();
     this.createBird();
@@ -174,7 +175,6 @@ faqin.Game = (function() {
   Game.prototype.addEventListeners = function() {
     return this.bird.addEventListener('collide', (function(_this) {
       return function(event) {
-        console.log(event);
         if (event.solid.pipe || event.solid.floor) {
           return _this.stop();
         } else if (event.solid.checkpoint) {
@@ -187,13 +187,30 @@ faqin.Game = (function() {
   };
 
   Game.prototype.updateScore = function() {
-    return document.getElementById('score').innerHTML = this.score;
+    return this.scoreDisplay.innerHTML = this.score;
   };
 
   return Game;
 
 })();
 
-window.onload = function() {
-  return new faqin.Game;
-};
+(function() {
+  var game, gameContainer, playGame, wellcomeContainer;
+  wellcomeContainer = document.getElementById('wellcomeContainer');
+  gameContainer = document.getElementById('gameContainer');
+  game = null;
+  playGame = function(event) {
+    wellcomeContainer.style.display = 'none';
+    gameContainer.style.display = 'block';
+    game = new faqin.Game;
+    window.removeEventListener('keydown', playGame);
+    event.stopPropagation();
+    return false;
+  };
+  return window.onload = function() {
+    var playButton;
+    playButton = document.getElementById('playButton');
+    playButton.addEventListener('click', playGame);
+    return window.addEventListener('keydown', playGame);
+  };
+})();
